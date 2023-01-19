@@ -5,14 +5,19 @@ import {
 
 //type defenitions define schemas?
 const typeDefs = gql `
-type Query{
+# optional
+schema{
+  query:shit
+}
+
+type shit{
 greeting: String
 }
 `
 
 //resolvers defines how server gives back the response
 const resolvers = {
-  Query: {
+  shit: {
     //greeting function will be called by graphql engine,everytime client sends a greeting query
     greeting: () => 'Hello world'
   }
