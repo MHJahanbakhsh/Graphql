@@ -1,3 +1,9 @@
 type Query{
-    greeting:String
+    jobs: [Job!] #because makes no sense to have an array with null elements
+}
+
+type Job{
+    id: ID! #means mandatory
+    title: String!
+    description: String
 }
