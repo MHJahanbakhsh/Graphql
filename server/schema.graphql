@@ -6,4 +6,11 @@ type Job{
     id: ID! #means mandatory
     title: String!
     description: String
+    company: Company #this is called object association
+}
+
+type Company{
+    id:ID!
+    name: String!
+    description: String
 }
