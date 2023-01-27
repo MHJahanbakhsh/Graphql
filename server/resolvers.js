@@ -1,7 +1,4 @@
-import {
-   Job,
-   Company
-} from './db.js'
+import {Job,Company} from './db.js'
 
 export const resolvers = {
    Query: {
@@ -10,8 +7,13 @@ export const resolvers = {
          return Job.findById(id)
       },
 
-      jobs: async () => { //can be regular or async function.mostly async because resolver usually should talk to database somehow 
+      jobs: () => { //can be regular or async function.mostly async because resolver usually should talk to database somehow 
          return Job.findAll()
+      },
+
+      company: (_root, args)=>{
+         const {companyId} = args
+         return Company.findById(companyId)  
       }
    },
 

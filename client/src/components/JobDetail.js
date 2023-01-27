@@ -1,6 +1,5 @@
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { jobs } from '../fake-data';
 import { getJob } from './graphql/queries';
 import { useEffect, useState } from 'react';
 
@@ -12,7 +11,6 @@ function JobDetail() {
     getJob(jobId).then(setJob)
   },[jobId])
 
-  // const job = jobs.find((job) => job.id === jobId);
   return (
     <div>
       <h1 className="title">

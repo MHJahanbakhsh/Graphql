@@ -1,6 +1,7 @@
 type Query{
     job(id:ID!):Job
     jobs: [Job!] #because makes no sense to have an array with null elements
+    company(companyId:ID!):Company
 }
 
 type Job{
