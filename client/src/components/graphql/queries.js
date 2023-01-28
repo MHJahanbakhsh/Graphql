@@ -15,6 +15,11 @@ export async function getCompany(companyId) {
         id
         description
       }
+      jobs {
+      id
+      title
+      description  
+    }
     }
   `;
     const variables = {companyId}

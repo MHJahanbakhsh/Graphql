@@ -19,8 +19,15 @@ export const resolvers = {
 
    Job: {
       //for rest of the fields that we dont provide a resolver function,it uses the value that we gave in previous step which is Job.findAll
-      company: (parent) => {
+      company: (parent) => { //in this case parent is a Job
          return Company.findById(parent.companyId)
+      }
+   },
+
+   Company: {
+      jobs:(parent)=>{ //in this case parent is a company
+         return Job.findAll(job=>job.companyId===parent.id)
+         //find all can also take a helper function to act like a filter method
       }
    }
 
