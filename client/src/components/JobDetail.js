@@ -6,10 +6,13 @@ import { useEffect, useState } from 'react';
 function JobDetail() {
   const { jobId } = useParams();
   const [job, setJob] = useState([])
+  const [err, setErr] = useState(null)
   useEffect(()=>{
     console.log('mounted')
-    getJob(jobId).then(setJob)
+    getJob(jobId).then(setJob).catch(err=>setErr(true))
   },[jobId])
+
+  if(err) return <p>ooops! something went wrong</p>
 
   return (
     <div>

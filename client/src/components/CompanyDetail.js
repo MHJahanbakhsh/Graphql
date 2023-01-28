@@ -8,7 +8,6 @@ function CompanyDetail() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    console.log(companyId);
     getCompany(companyId).then((res) => setData(res));
   }, [companyId]);
 
