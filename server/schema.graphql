@@ -4,6 +4,10 @@ type Query{
     company(companyId:ID!):Company
 }
 
+type Mutation {
+    createJob(title: String!, companyId:ID!, description:String):Job #all mutations should return something
+}
+
 type Job{
     id: ID! #means mandatory
     title: String!

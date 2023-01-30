@@ -17,6 +17,13 @@ export const resolvers = {
       }
    },
 
+   Mutation: {
+      createJob(_root, {title, companyId, description}){
+         return Job.create({title, companyId, description})
+      }
+      // note that id will be generated automatically by the server
+   },
+
    Job: {
       //for rest of the fields that we dont provide a resolver function,it uses the value that we gave in previous step which is Job.findAll
       company: (parent) => { //in this case parent is a Job
