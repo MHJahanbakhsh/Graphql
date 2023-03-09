@@ -1,23 +1,29 @@
-type Query{
-    job(id:ID!):Job
-    jobs: [Job!] #because makes no sense to have an array with null elements
-    company(companyId:ID!):Company
+type Query {
+  job(id: ID!): Job
+  jobs: [Job!] #because makes no sense to have an array with null elements
+  company(companyId: ID!): Company
 }
 
 type Mutation {
-    createJob(title: String!, companyId:ID!, description:String):Job #all mutations should return something
+  createJob(input: CreateJobInput!): Job #all mutations should return something
 }
 
-type Job{
-    id: ID! #means mandatory
-    title: String!
-    description: String
-    company: Company #this is called object association
+type Job {
+  id: ID! #means mandatory
+  title: String!
+  description: String
+  company: Company #this is called object association
 }
 
-type Company{
-    id:ID!
-    name: String!
-    description: String
-    jobs:[Job!]
+type Company {
+  id: ID!
+  name: String!
+  description: String
+  jobs: [Job!]
+}
+# "input" objects can only be used as arguments in other types
+input CreateJobInput {#order of items are important when quering
+  title: String!
+  companyId: ID!
+  description: String
 }

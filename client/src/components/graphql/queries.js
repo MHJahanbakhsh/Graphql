@@ -45,7 +45,7 @@ export async function getJob(id) {
   return job;
 }
 
-export async function getJobs() {
+export async function  getJobs() {
   const query = gql`
     {
       jobs {

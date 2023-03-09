@@ -1,9 +1,15 @@
-import {Job,Company} from './db.js'
+import {
+   Job,
+   Company
+} from './db.js'
 
+//we are returning promises! no their resolvers. somehow graphql handles it itself!
 export const resolvers = {
    Query: {
-      job:(_root,args)=>{ //underscode_ is just a convention for unused/private variables
-         const {id} = args
+      job: (_root, args) => { //underscode_ is just a convention for unused/private variables
+         const {
+            id
+         } = args
          return Job.findById(id)
       },
 
@@ -11,15 +17,17 @@ export const resolvers = {
          return Job.findAll()
       },
 
-      company: (_root, args)=>{
-         const {companyId} = args
-         return Company.findById(companyId)  
+      company: (_root, args) => {
+         const {
+            companyId
+         } = args
+         return Company.findById(companyId)
       }
    },
 
    Mutation: {
-      createJob(_root, {title, companyId, description}){
-         return Job.create({title, companyId, description})
+      createJob(_root, {input}) { //note that we are destructring input
+         return Job.create(input) //returns a promise
       }
       // note that id will be generated automatically by the server
    },
@@ -32,8 +40,8 @@ export const resolvers = {
    },
 
    Company: {
-      jobs:(parent)=>{ //in this case parent is a company
-         return Job.findAll(job=>job.companyId===parent.id)
+      jobs: (parent) => { //in this case parent is a company
+         return Job.findAll(job => job.companyId === parent.id)
          //find all can also take a helper function to act like a filter method
       }
    }
