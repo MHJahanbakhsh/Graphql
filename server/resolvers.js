@@ -26,10 +26,15 @@ export const resolvers = {
    },
 
    Mutation: {
-      createJob(_root, {input}) { //note that we are destructring input
+      createJob(_root, {input}) { //note that we are destructring input. input itself is an object.
          return Job.create(input) //returns a promise
-      }
+      },
       // note that id will be generated automatically by the server
+
+
+      deleteJob(_root,{id}){
+         return Job.delete(id)
+      }
    },
 
    Job: {

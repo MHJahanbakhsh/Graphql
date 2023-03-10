@@ -5,7 +5,11 @@ type Query {
 }
 
 type Mutation {
-  createJob(input: CreateJobInput!): Job #all mutations should return something
+  createJob(input: CreateJobInput!): Job #all mutations should return something.
+  # probably mock database is the one who actually returns that job after creating it. cause i don't see any logic for that in our resolver
+
+  
+  deleteJob(id:ID!):Job
 }
 
 type Job {
