@@ -10,6 +10,8 @@ type Mutation {
 
   
   deleteJob(id:ID!):Job
+
+  updateJob(input:updateJobInput!):Job
 }
 
 type Job {
@@ -27,6 +29,14 @@ type Company {
 }
 # "input" objects can only be used as arguments in other types
 input CreateJobInput {#order of items are important when quering
+  title: String!
+  description: String
+  companyId: ID!
+}
+
+
+input updateJobInput {
+  id:ID!
   title: String!
   description: String
   companyId: ID!

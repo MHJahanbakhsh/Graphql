@@ -34,6 +34,11 @@ export const resolvers = {
 
       deleteJob(_root,{id}){
          return Job.delete(id)
+      },
+
+      //this fakebase gets whole job with the already generated ID and replace the values with new ones.(i know but this is as best we can get )
+      updateJob(_root,{input}){ 
+         return Job.update(input)
       }
    },
 
