@@ -24,6 +24,6 @@ type Company {
 # "input" objects can only be used as arguments in other types
 input CreateJobInput {#order of items are important when quering
   title: String!
-  companyId: ID!
   description: String
+  companyId: ID!
 }

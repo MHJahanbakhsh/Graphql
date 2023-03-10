@@ -7,6 +7,25 @@ import {
 const GRAPQHQL_URL = 'http://localhost:9000/graphql'
 
 
+export async function createCompany(input) {
+  const query = gql`
+   mutation CreateJob($input: CreateJobInput!) {
+  # WITH ':' we are making an alias for returned data. because it will returm a job and we don't want api to say it is a createJob!  
+  job: createJob(input: $input) {
+    title
+    description
+    id
+    company {
+      name
+    }
+  }
+}
+  `;
+    const variables = {input}
+    return await request(GRAPQHQL_URL, query, variables)
+}
+
+
 export async function getCompany(companyId) {
   const query = gql`
     query ($companyId: ID!) {
