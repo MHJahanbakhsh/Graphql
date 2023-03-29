@@ -1,4 +1,5 @@
-import {request,gql} from 'graphql-request';
+import {gql} from '@apollo/client' //this gql function validates the query syntax(note that it wont validate based on schema) and if it is wrong it wont send the request
+import {request/*,gql*/} from 'graphql-request'; 
 import {getAccessToken} from '../../auth'
 
 const GRAPQHQL_URL = 'http://localhost:9000/graphql'
