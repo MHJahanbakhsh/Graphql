@@ -7,9 +7,7 @@ import {
 export const resolvers = {
    Query: {
       job: (_root, args) => { //underscode_ is just a convention for unused/private variables
-         const {
-            id
-         } = args
+         const {id} = args
          return Job.findById(id)
       },
 
@@ -18,15 +16,15 @@ export const resolvers = {
       },
 
       company: (_root, args) => {
-         const {
-            companyId
-         } = args
+         const {companyId} = args
          return Company.findById(companyId)
       }
    },
 
    Mutation: {
-      createJob(_root, {input}) { //note that we are destructring input. input itself is an object.
+      createJob(_root, {input},context) { //note that we are destructring input. input itself is an object.
+         console.log(context) // we can define context however we want
+         if(!context.auth) throw new Error('UnAuthorized!')
          return Job.create(input) //returns a promise
       },
       // note that id will be generated automatically by the server

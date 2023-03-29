@@ -15,7 +15,7 @@ const PORT = 9000;
 const JWT_SECRET = Buffer.from('Zn8Q5tyZ/G1MHltc4F/gTkVJMlrbKiZt', 'base64');
 
 const app = express();
-app.use(cors(), express.json(), expressjwt({
+app.use(cors(), express.json(), expressjwt({ //expressjwt middleware checkes req object for authorization token and if it exists,it checks it validity; decodes it and adds it to req object with with "auth" key
   algorithms: ['HS256'],
   credentialsRequired: false,
   secret: JWT_SECRET,
@@ -32,13 +32,17 @@ app.post('/login', async (req, res) => {
   }
 });
 const typeDefs = await readFile('./schema.graphql','utf-8'); //why do this and not export schema.graphql and import it here?
+const context = ({req,res})=> {
+  console.log(req)
+  return {auth:req.auth} //actually expressjwt middleware attached auth to req
+}
 const apolloServer = new ApolloServer({typeDefs, resolvers});
-await apolloServer.start()
+await apolloServer.start();
 app.use(
   '/graphql',
   cors(),
   express.json(), //i'm not sure about this thou
-  expressMiddleware(apolloServer),
+  expressMiddleware(apolloServer,{context}),
 ); 
 
 app.listen({ port: PORT }, () => {
