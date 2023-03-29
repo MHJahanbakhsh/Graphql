@@ -15,7 +15,12 @@ const PORT = 9000;
 const JWT_SECRET = Buffer.from('Zn8Q5tyZ/G1MHltc4F/gTkVJMlrbKiZt', 'base64');
 
 const app = express();
-app.use(cors(), express.json(), expressjwt({ //expressjwt middleware checkes req object for authorization token and if it exists,it checks it validity; decodes it and adds it to req object with with "auth" key
+/*expressjwt middleware checkes req object for authorization token and if it exists,
+it checks it validity; decodes it and adds it to req object with with "auth" key.
+it checks header for "Authorization" key and make it cleaner and add that to express
+req object
+*/
+app.use(cors(), express.json(), expressjwt({ 
   algorithms: ['HS256'],
   credentialsRequired: false,
   secret: JWT_SECRET,
@@ -31,10 +36,13 @@ app.post('/login', async (req, res) => {
     res.sendStatus(401);
   }
 });
-const typeDefs = await readFile('./schema.graphql','utf-8'); //why do this and not export schema.graphql and import it here?
-const context = ({req,res})=> {
-  console.log(req)
-  return {auth:req.auth} //actually expressjwt middleware attached auth to req
+const typeDefs = await readFile('./schema.graphql','utf-8'); //why do this and not export schema.graphql and import it here? becuase it is not javascript.it is just a file
+const context = async ({req,res})=> {
+  if(req.auth){
+    const user = await User.findById(req.auth.sub) 
+    return {user}
+  }
+  return {}
 }
 const apolloServer = new ApolloServer({typeDefs, resolvers});
 await apolloServer.start();

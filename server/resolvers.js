@@ -24,8 +24,8 @@ export const resolvers = {
    Mutation: {
       createJob(_root, {input},context) { //note that we are destructring input. input itself is an object.
          console.log(context) // we can define context however we want
-         if(!context.auth) throw new Error('UnAuthorized!')
-         return Job.create(input) //returns a promise
+         if(!context.user) throw new Error('UnAuthorized!')
+         return Job.create({...input,companyId:context.user.companyId}) //returns a promise
       },
       // note that id will be generated automatically by the server
 
