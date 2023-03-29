@@ -1,7 +1,4 @@
-import {
-   Job,
-   Company
-} from './db.js'
+import {Job,Company} from './db.js'
 
 //we are returning promises! no their resolvers. somehow graphql handles it itself!
 export const resolvers = {
@@ -23,20 +20,34 @@ export const resolvers = {
 
    Mutation: {
       createJob(_root, {input},context) { //note that we are destructring input. input itself is an object.
-         console.log(context) // we can define context however we want
+         console.log(context) // we can define context however we want(i defined it on server.js)
          if(!context.user) throw new Error('unAuthorized!')
          return Job.create({...input,companyId:context.user.companyId}) //returns a promise
       },
       // note that id will be generated automatically by the server
 
 
-      deleteJob(_root,{id}){
+     async deleteJob(_root,{id},context){
+         //check if user is authenticated  
+         if(!context.user) throw new Error('unAuthorized!') 
+
+         //check if the job they are trying to delete belongs to their company
+         const theJob = await Job.findById(id)
+         if(theJob.companyId!==context.user.companyId) throw new Error('you are not authorized to delete this job')
          return Job.delete(id)
       },
 
       //this fakebase gets whole job with the already generated ID and replace the values with new ones.(i know but this is as best we can get )
-      updateJob(_root,{input}){ 
-         return Job.update(input)
+      async updateJob(_root,{input},context){ 
+
+         //check if user is authenticated  
+         if(!context.user) throw new Error('unAuthorized!') 
+
+         //check if the job they are trying to update belongs to their company
+         const theJob = await Job.findById(input.id)
+         if(theJob.companyId!==context.user.companyId) throw new Error('you are not authorized to update this job')
+
+         return Job.update({...input,companyId:context.user.companyId})
       }
    },
 
