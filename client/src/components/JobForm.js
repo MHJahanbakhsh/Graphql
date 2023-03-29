@@ -7,8 +7,7 @@ function JobForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const companyId = '81bNwTjOvchUjaWbeoVsE'; //hardcoded for now.fix later
-    const {job} = await  createCompany({ title, description, companyId})
+    const {job} = await  createCompany({ title, description})
     console.log({job});
   };
 

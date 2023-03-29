@@ -1,8 +1,5 @@
-import {
-    request,
-    gql
-} from 'graphql-request'
-
+import {request,gql} from 'graphql-request';
+import {getAccessToken} from '../../auth'
 
 const GRAPQHQL_URL = 'http://localhost:9000/graphql'
 
@@ -10,7 +7,7 @@ const GRAPQHQL_URL = 'http://localhost:9000/graphql'
 export async function createCompany(input) {
   const query = gql`
    mutation CreateJob($input: CreateJobInput!) {
-  # WITH ':' we are making an alias for returned data. because it will returm a job and we don't want api to say it is a createJob!  
+  # WITH ':' we are making an alias for returned data. because it will return a job and we don't want api to say it is a createJob!  
   job: createJob(input: $input) {
     title
     description
@@ -22,7 +19,8 @@ export async function createCompany(input) {
 }
   `;
     const variables = {input}
-    return await request(GRAPQHQL_URL, query, variables)
+    const headers = {'Authorization':'Bearer '+ getAccessToken()}
+    return await request(GRAPQHQL_URL, query, variables,headers)
 }
 
 
