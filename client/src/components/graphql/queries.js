@@ -10,8 +10,8 @@ const client = new ApolloClient({
   cache:new InMemoryCache()
 })
 
-export async function createCompany(input) {
-  const query = gql`
+export async function createJob(input) {
+  const mutation = gql`
    mutation CreateJob($input: CreateJobInput!) {
   # WITH ':' we are making an alias for returned data. because it will return a job and we don't want api to say it is a createJob!  
   job: createJob(input: $input) {
@@ -25,8 +25,10 @@ export async function createCompany(input) {
 }
   `;
     const variables = {input}
-    const headers = {'Authorization':'Bearer '+ getAccessToken()}
-    return await request(GRAPQHQL_URL, query, variables,headers)
+    const context = { //this context totaly differs from context of apollo server
+      headers : {'Authorization':'Bearer '+ getAccessToken()}
+    }
+    return (await client.mutate({mutation,variables,context})).data.job
 }
 
 
@@ -46,7 +48,8 @@ export async function getCompany(companyId) {
     }
   `;
     const variables = {companyId}
-    return await request(GRAPQHQL_URL, query, variables)
+    const result =  await client.query({query,variables})
+    return result.data
 }
 
 export async function getJob(id) {
@@ -64,8 +67,8 @@ export async function getJob(id) {
     }
   `;
   const variables = { id }; //create an object with id
-  const { job } = await request(GRAPQHQL_URL, query, variables);
-  return job;
+  const result  = await client.query({query,variables})
+  return result.data.job;
 }
 
 export async function  getJobs() {

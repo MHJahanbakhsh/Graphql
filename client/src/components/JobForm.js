@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createCompany } from './graphql/queries';
+import { createJob } from './graphql/queries';
 
 function JobForm() {
   const [title, setTitle] = useState('');
@@ -7,7 +7,7 @@ function JobForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const {job} = await  createCompany({ title, description})
+    const {job} = await  createJob({ title, description})
     console.log({job});
   };
 
