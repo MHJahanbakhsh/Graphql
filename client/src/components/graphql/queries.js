@@ -1,9 +1,14 @@
-import {gql} from '@apollo/client' //this gql function validates the query syntax(note that it wont validate based on schema) and if it is wrong it wont send the request
+import {gql,ApolloClient, InMemoryCache} from '@apollo/client' //this gql function validates the query syntax(note that it wont validate based on schema) and if it is wrong it wont send the request
 import {request/*,gql*/} from 'graphql-request'; 
 import {getAccessToken} from '../../auth'
 
 const GRAPQHQL_URL = 'http://localhost:9000/graphql'
 
+
+const client = new ApolloClient({
+  uri:GRAPQHQL_URL,
+  cache:new InMemoryCache()
+})
 
 export async function createCompany(input) {
   const query = gql`
@@ -75,6 +80,7 @@ export async function  getJobs() {
       }
     }
   `;
-  const { jobs } = await request(GRAPQHQL_URL, query);
-  return jobs;
+
+  const result  = await client.query({query})
+  return result.data.jobs;
 }
